@@ -11,6 +11,28 @@ output:
 
 ## Project thoughts
 
-I am interested in exploring data related to...
-Something relating to polling?
-Something relating to political polarization
+I am interested in exploring data related to political polarization
+
+
+I will use the Political Polarization in U.S. Congress (1879–2023) dataset, which compiles congressional ideology measures from Voteview using DW-NOMINATE scores developed by Keith T. Poole and Howard Rosenthal. 
+My tentative research question is: How does the proportion of moderate legislators in Congress affect the level of party polarization over time? 
+I hypothesize that if the proportion of moderates declines, then the party polarization increases because when fewer moderates are present the ideological distance between parties increases.
+The key explanatory variable is Prop.moderate.d1 (proportion of legislators in each Congress whose DW-NOMINATE scores fall between −0.25 and +0.25).
+The dependent variable is Party.mean.diff.d1 (the difference between Democratic and Republican party means indicating polarization).
+My hypothesis would be supported if the regression shows a negative relationship meaning lower proportions of moderates are associated with greater party mean differences. 
+
+
+```{r}
+library(readr)
+
+polarization <- read_csv(
+  "https://raw.githubusercontent.com/justin-2028/Political-Polarization-in-US-Congress/main/Political%20Polarization%20in%20US%20Congress%20(Assorted).csv"
+)
+head(polarization)
+```
+
+
+
+
+
+
