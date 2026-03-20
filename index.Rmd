@@ -29,3 +29,48 @@ polarization <- read_csv(
 )
 head(polarization)
 ```
+## Cleaning the Data
+
+```{r}
+library(dplyr)
+library(ggplot2)
+
+clean_data <- polarization |>
+  select(congress, prop.moderate.d1, party.mean.diff.d1) |>
+  filter(!is.na(prop.moderate.d1), !is.na(party.mean.diff.d1))
+clean_data
+```
+
+```{r}
+  clean_data <- clean_data |>
+  rename(
+    Moderates = prop.moderate.d1,
+    Polarization = party.mean.diff.d1
+  )
+clean_data
+```
+## Visualization
+
+```{r}
+ggplot(clean_data, aes(x = Moderates, y = Polarization)) +
+  geom_point(alpha = 0.6, color = "steelblue") +
+  geom_smooth(method = "lm", se = TRUE, color = "darkred") +
+  labs(
+    title = "Moderates vs. Party Polarization in U.S. Congress",
+    x = "Proportion of Moderate Legislators",
+    y = "Party Mean Ideological Difference"
+  )
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
