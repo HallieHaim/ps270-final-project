@@ -14,20 +14,27 @@ I am interested in exploring data related to political polarization
 
 
 I will use the Political Polarization in U.S. Congress (1879–2023) dataset, which compiles congressional ideology measures from Voteview using DW-NOMINATE scores developed by Keith T. Poole and Howard Rosenthal. 
-My tentative research question is: How does the proportion of moderate legislators in Congress affect the level of party polarization over time? 
-I hypothesize that if the proportion of moderates declines, then the party polarization increases because when fewer moderates are present the ideological distance between parties increases.
-The key explanatory variable is Prop.moderate.d1 (proportion of legislators in each Congress whose DW-NOMINATE scores fall between −0.25 and +0.25).
-The dependent variable is Party.mean.diff.d1 (the difference between Democratic and Republican party means indicating polarization).
-My hypothesis would be supported if the regression shows a negative relationship meaning lower proportions of moderates are associated with greater party mean differences. 
+My updated research question is: How does political polarization affect legislative productivity in Congress over time?
+
+hypothesize that higher levels of political polarization lead to fewer laws being passed, because increased ideological division makes compromise and lawmaking more difficult. The key explanatory variable is Polarization (Party.mean.diff.d1).
+The dependent variable is number of laws passed per year.
+
+My hypothesis would be supported if the regression shows a negative relationship, meaning higher polarization is associated with fewer laws passed. 
 
 
 ```{r}
 library(readr)
+library(tidyverse)
+library(gapminder)
+library(dplyr)
 
 polarization <- read_csv(
   "https://raw.githubusercontent.com/justin-2028/Political-Polarization-in-US-Congress/main/Political%20Polarization%20in%20US%20Congress%20(Assorted).csv"
 )
-head(polarization)
+polarization
+
+laws <- read_csv("osfstorage-archive/master.csv")
+laws
 ```
 ## Cleaning the Data
 
@@ -36,7 +43,7 @@ library(dplyr)
 library(ggplot2)
 
 clean_data <- polarization |>
-  select(congress, prop.moderate.d1, party.mean.diff.d1) |>
+  select(congress, year, prop.moderate.d1, party.mean.diff.d1) |>
   filter(!is.na(prop.moderate.d1), !is.na(party.mean.diff.d1))
 clean_data
 ```
@@ -49,16 +56,38 @@ clean_data
   )
 clean_data
 ```
+
+```{r}
+laws_clean <- laws |>
+  mutate(
+    date_of_passage = as.Date(date_of_passage),
+    year = as.integer(format(date_of_passage, "%Y"))
+  ) |>
+  group_by(year) |>
+  summarize(Laws_Passed = n())
+laws_clean
+```
+
+
+## Join the Data
+
+```{r}
+merged_data <- inner_join(clean_data, laws_clean, by = "year")
+merged_data
+```
+
+
+
 ## Visualization
 
 ```{r}
-ggplot(clean_data, aes(x = Moderates, y = Polarization)) +
-  geom_point(alpha = 0.6, color = "steelblue") +
+ggplot(merged_data, aes(x = Polarization, y = Laws_Passed)) +
+  geom_point(alpha = 0.6, color = "dodgerblue") +
   geom_smooth(method = "lm", se = TRUE, color = "darkred") +
   labs(
-    title = "Moderates vs. Party Polarization in U.S. Congress",
-    x = "Proportion of Moderate Legislators",
-    y = "Party Mean Ideological Difference"
+    title = "Political Polarization vs. Legislative Productivity",
+    x = "Party Mean Ideological Difference (Polarization)",
+    y = "Number of Laws Passed"
   )
 ```
 
