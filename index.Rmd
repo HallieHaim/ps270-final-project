@@ -13,10 +13,12 @@ output:
 I am interested in exploring data related to political polarization
 
 
-I will use the Political Polarization in U.S. Congress (1879–2023) dataset, which compiles congressional ideology measures from Voteview using DW-NOMINATE scores developed by Keith T. Poole and Howard Rosenthal. 
+I will use the Political Polarization in U.S. Congress (1879–2023) dataset, which compiles congressional ideology measures from Voteview using DW-NOMINATE scores developed by Keith T. Poole and Howard Rosenthal. Also Libgober, Brian, and Tejas V. Bhat. A Comprehensive Dataset of U.S. Federal Laws. 2023. OSF, https://doi.org/10.17605/OSF.IO/MRGHC. 
 My updated research question is: How does political polarization affect legislative productivity in Congress over time?
 
-hypothesize that higher levels of political polarization lead to fewer laws being passed, because increased ideological division makes compromise and lawmaking more difficult. The key explanatory variable is Polarization (Party.mean.diff.d1).
+I hypothesize that if there are higher levels of political polarization then fewer laws will be passed, because increased polarization makes compromise and lawmaking more difficult. 
+
+The key explanatory variable is Polarization (Party.mean.diff.d1).
 The dependent variable is number of laws passed per year.
 
 My hypothesis would be supported if the regression shows a negative relationship, meaning higher polarization is associated with fewer laws passed. 
@@ -91,7 +93,10 @@ ggplot(merged_data, aes(x = Polarization, y = Laws_Passed)) +
   )
 ```
 
-
+```{r}
+lm(Laws_Passed ~ Polarization, data = merged_data)
+```
+This graph shows a pretty strong negative relationship between polarization and the number of laws that get passed by congress. When polarization increases by 1 unit, the number of laws passed decreases by about 593 laws. If polarization didn't exist and it was somehow zero, there would be approximately 626 laws passed. However, while the relationship is strong in direction, additional factors beyond polarization likely influence how many laws Congress passes in a given period.
 
 
 

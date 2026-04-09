@@ -1546,9 +1546,10 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <div class="d-article">
 <h2 id="project-thoughts">Project thoughts</h2>
 <p>I am interested in exploring data related to political polarization</p>
-<p>I will use the Political Polarization in U.S. Congress (1879–2023) dataset, which compiles congressional ideology measures from Voteview using DW-NOMINATE scores developed by Keith T. Poole and Howard Rosenthal.
+<p>I will use the Political Polarization in U.S. Congress (1879–2023) dataset, which compiles congressional ideology measures from Voteview using DW-NOMINATE scores developed by Keith T. Poole and Howard Rosenthal. Also Libgober, Brian, and Tejas V. Bhat. A Comprehensive Dataset of U.S. Federal Laws. 2023. OSF, <a href="https://doi.org/10.17605/OSF.IO/MRGHC" class="uri">https://doi.org/10.17605/OSF.IO/MRGHC</a>.
 My updated research question is: How does political polarization affect legislative productivity in Congress over time?</p>
-<p>hypothesize that higher levels of political polarization lead to fewer laws being passed, because increased ideological division makes compromise and lawmaking more difficult. The key explanatory variable is Polarization (Party.mean.diff.d1).
+<p>I hypothesize that if there are higher levels of political polarization then fewer laws will be passed, because increased polarization makes compromise and lawmaking more difficult.</p>
+<p>The key explanatory variable is Polarization (Party.mean.diff.d1).
 The dependent variable is number of laws passed per year.</p>
 <p>My hypothesis would be supported if the regression shows a negative relationship, meaning higher polarization is associated with fewer laws passed.</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -1718,7 +1719,20 @@ The dependent variable is number of laws passed per year.</p>
 </div>
 <p><img src="index_files/figure-html5/unnamed-chunk-6-1.png" alt="" width="624" /></p>
 </div>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>Laws_Passed</span> <span class='op'>~</span> <span class='va'>Polarization</span>, data <span class='op'>=</span> <span class='va'>merged_data</span><span class='op'>)</span></span></code></pre>
+</div>
+<pre><code>
+Call:
+lm(formula = Laws_Passed ~ Polarization, data = merged_data)
+
+Coefficients:
+ (Intercept)  Polarization  
+       626.5        -593.0  </code></pre>
+</div>
+<p>This graph shows a pretty strong negative relationship between polarization and the number of laws that get passed by congress. When polarization increases by 1 unit, the number of laws passed decreases by about 593 laws. If polarization didn’t exist and it was somehow zero, there would be approximately 626 laws passed. However, while the relationship is strong in direction, additional factors beyond polarization likely influence how many laws Congress passes in a given period.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
