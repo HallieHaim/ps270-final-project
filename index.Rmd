@@ -59,6 +59,8 @@ clean_data
 clean_data
 ```
 
+
+
 ```{r}
 laws_clean <- laws |>
   mutate(
@@ -96,14 +98,7 @@ ggplot(merged_data, aes(x = Polarization, y = Laws_Passed)) +
 ```{r}
 lm(Laws_Passed ~ Polarization, data = merged_data)
 ```
-This graph shows a pretty strong negative relationship between polarization and the number of laws that get passed by congress. When polarization increases by 1 unit, the number of laws passed decreases by about 593 laws. If polarization didn't exist and it was somehow zero, there would be approximately 626 laws passed. However, while the relationship is strong in direction, additional factors beyond polarization likely influence how many laws Congress passes in a given period.
-
-
-
-
-
-
-
+This graph shows a pretty strong negative relationship between polarization and the number of laws that get passed by congress, which directly supports my hypothesis. When polarization increases by 1 unit, the number of laws passed decreases by about 593 laws. If polarization didn't exist and it was somehow zero, there would be approximately 626 laws passed per year. It is important to note, however, that while the relationship is strong in direction, there could be confounding variables also influencing how many laws Congress passes in a given period. Correlation does not equal causation.
 
 
 
