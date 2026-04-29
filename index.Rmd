@@ -16,13 +16,14 @@ I am interested in exploring data related to political polarization
 I will use the Political Polarization in U.S. Congress (1879–2023) dataset, which compiles congressional ideology measures from Voteview using DW-NOMINATE scores developed by Keith T. Poole and Howard Rosenthal. Also Libgober, Brian, and Tejas V. Bhat. A Comprehensive Dataset of U.S. Federal Laws. 2023. OSF, https://doi.org/10.17605/OSF.IO/MRGHC. 
 My updated research question is: How does political polarization affect legislative productivity in Congress over time?
 
-I hypothesize that if there are higher levels of political polarization then fewer laws will be passed, because increased polarization makes compromise and lawmaking more difficult. 
+I hypothesize that if there are higher levels of political polarization then fewer laws will be passed, because increased polarization makes compromise and lawmaking more difficult. As polarization increases, legislators are less willing to compromise across party lines, which makes it more difficult to build coalitions necessary to pass legislation.
 
 The key explanatory variable is Polarization (Party.mean.diff.d1).
 The dependent variable is number of laws passed per year.
 
 My hypothesis would be supported if the regression shows a negative relationship, meaning higher polarization is associated with fewer laws passed. 
 
+This is an observational study over time. Because this is an observational study, I have to take confounding variables into account that affect both polarization and the number of laws passed. 
 
 ```{r}
 library(readr)
@@ -54,9 +55,9 @@ clean_data
   clean_data <- clean_data |>
   rename(
     Moderates = prop.moderate.d1,
-    Polarization = party.mean.diff.d1
-  )
+    Polarization = party.mean.diff.d1)
 clean_data
+knitr::kable(head(clean_data), caption = "Preview of Polarization Data")
 ```
 
 
@@ -70,6 +71,7 @@ laws_clean <- laws |>
   group_by(year) |>
   summarize(Laws_Passed = n())
 laws_clean
+knitr::kable(head(laws_clean), caption = "Preview of Laws Passed Data")
 ```
 
 
@@ -78,11 +80,22 @@ laws_clean
 ```{r}
 merged_data <- inner_join(clean_data, laws_clean, by = "year")
 merged_data
+knitr::kable(head(merged_data), caption = "Preview of Merged Dataset")
 ```
 
 
-
 ## Visualization
+
+```{r}
+ggplot(laws_clean, aes(x = year, y = Laws_Passed)) +
+  geom_line() +
+  labs(
+    title = "Number of Laws Passed Over Time",
+    x = "Year",
+    y = "Laws Passed")
+```
+
+
 
 ```{r}
 ggplot(merged_data, aes(x = Polarization, y = Laws_Passed)) +
@@ -91,14 +104,39 @@ ggplot(merged_data, aes(x = Polarization, y = Laws_Passed)) +
   labs(
     title = "Political Polarization vs. Legislative Productivity",
     x = "Party Mean Ideological Difference (Polarization)",
-    y = "Number of Laws Passed"
-  )
+    y = "Number of Laws Passed")
 ```
 
 ```{r}
-lm(Laws_Passed ~ Polarization, data = merged_data)
+library(modelsummary)
+
+model <- lm(Laws_Passed ~ Polarization, data = merged_data)
+
+modelsummary(
+  model,
+  stars = TRUE,
+  fmt = 2,
+  title = "Effect of Political Polarization on Legislative Productivity",
+  coef_map = c("Polarization" = "Political Polarization"),
+  gof_omit = "IC|Log|AIC|BIC")
 ```
-This graph shows a pretty strong negative relationship between polarization and the number of laws that get passed by congress, which directly supports my hypothesis. When polarization increases by 1 unit, the number of laws passed decreases by about 593 laws. If polarization didn't exist and it was somehow zero, there would be approximately 626 laws passed per year. It is important to note, however, that while the relationship is strong in direction, there could be confounding variables also influencing how many laws Congress passes in a given period. Correlation does not equal causation.
+This graph shows a pretty strong negative relationship between polarization and the number of laws that get passed by congress, which directly supports my hypothesis. When polarization increases by 1 unit, the number of laws passed decreases by about 593 laws. While a one-unit increase represents a large shift in polarization, the negative coefficient indicates that even smaller increases in polarization are associated with meaningful declines in legislative productivity. If polarization didn't exist and it was somehow zero, there would be approximately 626 laws passed per year. It is important to note, however, that while the relationship is strong in direction, there could be confounding variables also influencing how many laws Congress passes in a given period. Correlation does not equal causation.
+
+A confounding variable that would be essential to consider is examining periods of when there is a divided government. A divided government may both increase polarization and reduce legislative output, making it difficult to isolate the independent effect of polarization alone. The opposite could be true, if there is unified government. There are also administrative and institutional changes, such as shifts in legislative rules or agenda-setting priorities, may also influence productivity. Economic and political crises may also play a role; during periods of war, recession, or national emergency, Congress may pass more laws regardless of polarization levels. Because these factors are not included in the model, the estimated relationship between polarization and laws passed may reflect both the direct effect of polarization and the influence of omitted variables.
+
+This effect is statistically significant at the p < 0.001 level, meaning there is less than a 0.1% probability that this relationship is due to random chance. This suggests that increases in ideological division between parties are associated with meaningful declines in congressional output.
+
+However, this relationship should not be interpreted causally. While the model shows a strong association, it does not account for important confounding variables such as divided government or national crises, which may influence both polarization and legislative productivity. As a result, the estimated coefficient likely reflects a combination of the true effect of polarization and omitted variable bias.
+
+Overall, this analysis finds strong evidence of a negative relationship between political polarization and legislative productivity in Congress. As polarization increases, the number of laws passed tends to decline, which supports the original hypothesis. The regression results show that this relationship is both substantively large and statistically significant, suggesting that polarization is closely associated with reduced lawmaking activity.
+
+However, this relationship should not be interpreted as causal. Because the analysis is based on observational time-series data, it is vulnerable to omitted variable bias and other threats to inference. Factors such as divided government, institutional changes, and major political or economic events may influence both polarization and legislative productivity. Future research could improve this analysis by incorporating these variables or using more advanced time-series methods to better isolate causal effects.
+
+
+
+
+
+
 
 
 
