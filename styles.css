@@ -1,0 +1,140 @@
+output:
+  distill::distill_article:
+    self_contained: false
+    css: styles.css
+
+/* =========================
+   IMPORT FONTS (MODERN + CLEAN)
+========================= */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Space+Grotesk:wght@500;700&display=swap');
+
+/* =========================
+   GLOBAL BACKGROUND
+========================= */
+body {
+  font-family: 'Inter', sans-serif;
+  background: linear-gradient(180deg, #0a192f 0%, #112d4e 100%);
+  color: #e6edf3;
+  line-height: 1.6;
+}
+
+/* =========================
+   MAIN CONTENT CARD (THIS IS THE BIG UPGRADE)
+========================= */
+.distill-article {
+  background: #ffffff;
+  color: #1a1a1a;
+  padding: 40px;
+  border-radius: 12px;
+  max-width: 900px;
+  margin: 40px auto;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* =========================
+   TITLE
+========================= */
+d-title h1 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 48px;
+  font-weight: 800;
+  color: #0a192f;
+  letter-spacing: -1px;
+}
+
+/* =========================
+   SECTION HEADINGS
+========================= */
+h2 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 30px;
+  font-weight: 700;
+  color: #0a192f;
+  margin-top: 50px;
+  margin-bottom: 15px;
+  border-left: 6px solid #3a86ff;
+  padding-left: 14px;
+}
+
+h3 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #3a86ff;
+}
+
+/* =========================
+   LINKS
+========================= */
+a {
+  color: #3a86ff;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(58, 134, 255, 0.4);
+  transition: all 0.2s ease;
+}
+
+a:hover {
+  color: #1d4ed8;
+  border-bottom: 1px solid #1d4ed8;
+}
+
+/* =========================
+   NAV BAR
+========================= */
+.distill-site-nav {
+  background-color: #020617;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+/* =========================
+   CODE BLOCKS
+========================= */
+pre {
+  background-color: #0a192f;
+  color: #e6edf3;
+  border-radius: 8px;
+  padding: 14px;
+  overflow-x: auto;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+/* =========================
+   TABLES (kable output)
+========================= */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+th {
+  background-color: #3a86ff;
+  color: white;
+  padding: 10px;
+  text-align: left;
+}
+
+td {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+tr:hover {
+  background-color: #f5f8ff;
+}
+
+/* =========================
+   PLOTS / IMAGES
+========================= */
+img {
+  border-radius: 10px;
+  max-width: 100%;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+}
+
+/* =========================
+   SUBTLE TRANSITIONS
+========================= */
+* {
+  transition: all 0.2s ease-in-out;
+}
